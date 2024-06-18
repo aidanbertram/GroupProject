@@ -1,1 +1,43 @@
+1.Team Name
+
+The Legends
+
+2. Team Members and Githubs
+
+Aidan Bertram, aidanbertram
+Alex Zhou, Alexz3221
+Hamed Sidiqyar, Hasi15954
+Emerson Scott, EmersonScott
+
+3. Application Name
+
+Madom.com
+
+4. Application Description
+
+Our application will be renting, buying, and selling any film or TV show. 
+
+5. Vision Statement
+
+For movie lovers, Who strive to watch films. The Madom is an e-commerce website that allows users to browse and purchase movies and TV. Unlike streaming services, our product lets users own the media they purchase.
+
+6. Github Link
+
+https://github.com/aidanbertram/GroupProject
+
+7. Development Methodology
+
+We will use an agile development methodology to develop our platform using Githubs built in tools.
+
+8. Communication Plan
+
+We will communicate in person after classes, through our group chat, and through our GitHub repository.
+
+9. Meeting Plan
+
+We will meet once a week in person after class depending on what works best for that week. We will aim to do it every Wednesday. 
+TA meetings will also be in person after class on Thursdays if that works.
+10. Use Case Diagram + 11. Wireframe
+https://lucid.app/lucidchart/c5629681-8591-4af4-b2bf-1d5d02729acf/edit?viewport_loc=-428%2C-40%2C2721%2C1370%2C.Q4MUjXso07N&invitationId=inv_4eb39088-54e1-4892-bb22-4d06806409ae
+
 
