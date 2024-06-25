@@ -15,7 +15,7 @@ Madom.com
 
 4. Application Description
 
-Our application will be renting, buying, and selling any film or TV show. 
+Our application will facilitate the renting, buying, and selling of any film or TV show. Users will have personalized collections based on the films or TV shows they have purchased or rented. Additionally, the application will provide recommendations and a streamlined experience for managing and enjoying their media library.
 
 5. Vision Statement
 
