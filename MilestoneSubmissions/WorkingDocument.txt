@@ -15,7 +15,9 @@ Madom.com
 
 4. Application Description
 
-Our application will facilitate the renting, buying, and selling of any film or TV show. Users will have personalized collections based on the films or TV shows they have purchased or rented. Additionally, the application will provide recommendations and a streamlined experience for managing and enjoying their media library.
+Our application will facilitate the renting, buying, and selling of any film or TV show. 
+Users will have personalized collections based on the films or TV shows they have purchased or rented. 
+Additionally, the application will provide recommendations and a streamlined experience for managing and enjoying their media library.
 
 5. Vision Statement
 
@@ -37,6 +39,7 @@ We will communicate in person after classes, through our group chat, and through
 
 We will meet once a week in person after class depending on what works best for that week. We will aim to do it every Wednesday. 
 TA meetings will also be in person after class on Thursdays if that works.
+
 10. Use Case Diagram + 11. Wireframe
 https://lucid.app/lucidchart/c5629681-8591-4af4-b2bf-1d5d02729acf/edit?viewport_loc=-428%2C-40%2C2721%2C1370%2C.Q4MUjXso07N&invitationId=inv_4eb39088-54e1-4892-bb22-4d06806409ae
 
