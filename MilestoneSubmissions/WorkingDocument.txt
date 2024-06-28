@@ -29,7 +29,17 @@ https://github.com/aidanbertram/GroupProject
 
 7. Development Methodology
 
-We will use an agile development methodology to develop our platform using Githubs built in tools.
+We will adopt an agile development methodology for developing our movie/film website platform to buy or rent movies. Agile emphasizes iterative development, where requirements and solutions evolve through collaboration between cross-functional teams. Using agile practices, we aim to enhance flexibility, improve product quality, and ensure customer satisfaction.
+
+To streamline our agile process, we will utilize GitHub's built-in tools, including GitHub Issues, Projects, and Actions. These tools will help manage our backlog, track progress, automate workflows, and ensure continuous integration and delivery.
+
+I Hamed will be the scrum master. I will text my group about there progress with the project and it should take about 10 minutes.
+The roles for the Project are as listed.
+Aidan is the owner of the Github and look at the backend of the product and will make sure that the team is delivering good code.
+Alex will be the designer for the front end and I will go back and forth to Alex and Aidan to see if they things are working. 
+Emerson will be the one who will help the structural look of the website.
+
+By the end of this we will aim to make a product that will make the user feel they achieved a website that given the experience other users want in a movies/film website.
 
 8. Communication Plan
 
