@@ -33,10 +33,10 @@ We will adopt an agile development methodology for developing our movie/film web
 
 To streamline our agile process, we will utilize GitHub's built-in tools, including GitHub Issues, Projects, and Actions. These tools will help manage our backlog, track progress, automate workflows, and ensure continuous integration and delivery.
 
-I Hamed will be the scrum master. I will text my group about there progress with the project and it should take about 10 minutes.
+I Hamed will be the scrum master. I will text my group about their progress with the project and it should take about 10 minutes.
 The roles for the Project are as listed.
-Aidan is the owner of the Github and look at the backend of the product and will make sure that the team is delivering good code.
-Alex will be the designer for the front end and I will go back and forth to Alex and Aidan to see if they things are working. 
+Aidan is the owner of the Github and will look at the backend of the product and will make sure that the team is delivering good code.
+Alex will be the designer for the front end and I will go back and forth to Alex and Aidan to see if things are working. 
 Emerson will be the one who will help the structural look of the website.
 
 By the end of this we will aim to make a product that will make the user feel they achieved a website that given the experience other users want in a movies/film website.
