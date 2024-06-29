@@ -15,9 +15,11 @@ Madom.com
 
 4. Application Description
 
-Our application will facilitate the renting, buying, and selling of any film or TV show. 
-Users will have personalized collections based on the films or TV shows they have purchased or rented. 
-Additionally, the application will provide recommendations and a streamlined experience for managing and enjoying their media library.
+Our application will facilitate the renting, buying, and selling of any film or TV show. This is comparable to any streaming service. However, the difference is in the final ownership of a bought film. After purchase, they will have full autonomy to download or obtain a physical copy of whatever they have purchased. In the modern era, many streaming services have changed their outlook, where you subscribe to the service and get to see the shows they have. However, you never get to keep any of the things you pay for. So, our service will differ in final ownership. We may also add a subscription service, but that isn't certain.
+
+Users will have personalized collections based on the films or TV shows they have purchased or rented. This will be linked to their specific accounts. We will have a login and collection page for this. They will have the option, from there, to stream the content or download it. If they desire, we will also give them the option to receive a physical copy of most content. There will also be a store page, where users can browse available content and see specific prices for rental and purchase. 
+
+Additionally, the application will provide recommendations and a streamlined experience for managing and enjoying their media library. Based off previously owned movies, their genres, and other applicable factors such as popularity, we will have a recommendation engine. The media library and story will have various features, such as search by name, genre, actor, etc. It will also have sorting, such as alphabetical, rating, views, etc.
 
 5. Vision Statement
 
