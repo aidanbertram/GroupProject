@@ -14,5 +14,16 @@ Prerequisites:
 -
 
 Instructions:
--
+Full Docker/Postgres init sequence for fresh test,
+
+docker-compose down
+docker volume rm projectsourcecode_group-project
+
+docker-compose up -d --build
+
+docker-compose exec db psql -U username -d modom
+
+\dt
+
+SELECT * FROM users;
 
