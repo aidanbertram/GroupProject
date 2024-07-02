@@ -11,19 +11,16 @@ Technology Stack:
 Docker, HTML, CSS, Javascript, Postgres ...
 
 Prerequisites:
--
+None
 
 Instructions:
-Full Docker/Postgres init sequence for fresh test,
+Full Docker/Postgres init sequence for fresh test, Terminal in ProjectSourceCode
+
 
 docker-compose down
 docker volume rm projectsourcecode_group-project
-
 docker-compose up -d --build
-
 docker-compose exec db psql -U username -d modom
-
-\dt
-
-SELECT * FROM users;
-
+\dt                                   //to see tables
+SELECT * FROM users;                  //to see users
+SELECT * FROM content;                //to see content
