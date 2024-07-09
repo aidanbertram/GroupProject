@@ -1,19 +1,19 @@
 const express = require('express');
-const db = require('./database.js'); 
+const db = require('./db');  // Make sure this points to your db.js file
 
 const app = express();
-const port = 3000;
 
-app.get('/content', async (req, res) => {
+app.get('/', async (req, res) => {
     try {
-        const content = await db.any('SELECT * FROM content');
-        res.json(content);
+        const data = await db.any('SELECT * FROM content');  // Adjust SQL query as needed
+        res.json(data);
     } catch (err) {
-        console.error('Error fetching content:', err);
-        res.status(500).send('Failed to retrieve content');
+        console.error('Error accessing the database:', err);
+        res.status(500).send('Database access error');
     }
 });
 
-app.listen(port, () => {
-    console.log(`Server listening on http://localhost:${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });

@@ -1,0 +1,14 @@
+{
+    "name": "simple-node-app",
+    "version": "1.0.0",
+    "description": "A simple Node.js application that queries a PostgreSQL database",
+    "main": "src/index.js",
+    "scripts": {
+      "start": "node src/index.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "pg-promise": "^10.11.1"
+    }
+  }
+  
