@@ -30,9 +30,9 @@ INSERT INTO content (content_type, title, director, release_year, genre, format,
 ('Book', 'The Hobbit', 'J.R.R. Tolkien', 1937, 'Fantasy', 'Hardcover', 25.99),
 ('Game', 'The Legend of Zelda', 'Nintendo', 1986, 'Adventure', 'Cartridge', 49.99);
 
--- Functions to manage cart and selling arrays
+-- FUNCTIONS
 
--- Function to add content to a user's cart
+--add content to a user's cart
 CREATE OR REPLACE FUNCTION add_to_cart(user_id INT, content_id INT) RETURNS VOID AS $$
 BEGIN
     UPDATE users
@@ -41,7 +41,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to remove content from a user's cart
+--remove content from a user's cart
 CREATE OR REPLACE FUNCTION remove_from_cart(user_id INT, content_id INT) RETURNS VOID AS $$
 BEGIN
     UPDATE users
@@ -50,7 +50,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to get the content of a user's cart
+-- get the content of a user's cart
 CREATE OR REPLACE FUNCTION get_cart(user_id INT) RETURNS INT[] AS $$
 DECLARE
     cart_contents INT[];
@@ -60,7 +60,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to add content to a user's selling list
+--  add content to a user's selling list
 CREATE OR REPLACE FUNCTION add_to_selling(user_id INT, content_id INT) RETURNS VOID AS $$
 BEGIN
     UPDATE users
@@ -69,7 +69,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to remove content from a user's selling list
+-- remove content from a user's selling list
 CREATE OR REPLACE FUNCTION remove_from_selling(user_id INT, content_id INT) RETURNS VOID AS $$
 BEGIN
     UPDATE users
@@ -78,7 +78,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to get the content of a user's selling list
+--  get the content of a user's selling list
 CREATE OR REPLACE FUNCTION get_selling(user_id INT) RETURNS INT[] AS $$
 DECLARE
     selling_contents INT[];
