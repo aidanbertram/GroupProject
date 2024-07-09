@@ -14,8 +14,8 @@ const session = require('express-session');
 // create `ExpressHandlebars` instance and configure the layouts and partials dir.
 const hbs = handlebars.create({
     extname: 'hbs',
-    layoutsDir: __dirname + '/src/views/layouts',
-    partialsDir: __dirname + '/src/views/partials',
+    layoutsDir: __dirname + '/views/layouts',
+    partialsDir: __dirname + '/views/partials',
   });
   
   // Register `hbs` as our view engine using its bound `engine()` function.

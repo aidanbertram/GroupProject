@@ -19,6 +19,3 @@ CREATE TABLE content (
     genre VARCHAR(50),
     format VARCHAR(50) NOT NULL
 );
-
-
-
