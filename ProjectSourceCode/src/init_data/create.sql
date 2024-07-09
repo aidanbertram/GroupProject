@@ -9,13 +9,16 @@ CREATE TABLE users (
     password_h VARCHAR(255) NOT NULL
 );
 
--- Create Movies Table
+-- Movies 
 CREATE TABLE content (
-    id SERIAL PRIMARY KEY,
-    content_type VARCHAR(50),
+    movie_id SERIAL PRIMARY KEY,
+    content_type VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL,
     director VARCHAR(255),
     release_year INT,
     genre VARCHAR(50),
     format VARCHAR(50) NOT NULL
 );
+
+
+
