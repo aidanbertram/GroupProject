@@ -63,13 +63,21 @@ const dbConfig = {
 //     res.send("Example website");
 //   });
 
-  app.get("/", (req, res) => {
-    res.render("pages/login");
-  });
+app.get('/', (req, res) => {
+  res.redirect('/login');
+});
+
+app.get('/login', (req, res) => {
+  res.render('pages/login');
+});
   
-  app.get("/register", (req, res) => {
-    res.render("pages/register");
-  });
+app.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+
+app.get('/favorites', (req, res) => {
+  res.render('pages/favorites');
+});
   
 //   app.get("/login", (req, res) => {
 //     res.render("pages/login");
