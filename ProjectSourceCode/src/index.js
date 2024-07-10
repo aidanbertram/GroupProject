@@ -82,9 +82,13 @@ const dbConfig = {
     res.render("pages/login");
   });
   
-  app.get("/register", (req, res) => {
-    res.render("pages/register");
-  });
+app.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+
+app.get('/favorites', (req, res) => {
+  res.render('pages/favorites');
+});
   
 
   app.listen(3000, () => {
