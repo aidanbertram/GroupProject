@@ -101,7 +101,7 @@ app.get('/register', (req, res) => {
   res.render('pages/register');
 });
 
-app.post('/register', function (req, res) {
+app.post('/add_user', function (req, res) {
   const query =
     'insert into users (username, email, password_h) values ($1, $2, $3)  returning * ;';
   db.any(query, [
@@ -112,13 +112,22 @@ app.post('/register', function (req, res) {
     // if query execution succeeds
     // send success message
     .then(function (data) {
-      res.redirect('/login');
+      res.redirect('pages.login')
     })
     // if query execution fails
     // send error message
     .catch(function (err) {
-      return console.log(err);
+      console.log(err);
+      res.status(400).json({
+        status: 'error',
+        message: 'An account with this information already exists!',
+      });
     });
+});
+
+
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
 });
 
 // Authentication middleware.
@@ -149,7 +158,11 @@ app.get('/favorites', (req, res) => {
   res.render('pages/favorites');
 });
   
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.render('pages/logout');
+});
 
-  app.listen(3000, () => {
-    console.log("Server is running on port 3000");
-  });
+module.exports = app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
