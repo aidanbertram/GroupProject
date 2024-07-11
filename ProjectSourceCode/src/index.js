@@ -63,27 +63,86 @@ const dbConfig = {
 //     res.send("Example website");
 //   });
 
+const user = {
+  username: undefined,
+  email: undefined,
+  password: undefined,
+};
   // Serve static files - fixed css file issue
   app.use('/resources', express.static(path.join(__dirname, 'resources')));
-
-  app.get("/", async (req, res) => {
-    try {
-      // Fetch content from the database
-      const content = await db.any('SELECT * FROM content');
-  
-      res.render('pages/home', { content });
-    } catch (error) {
-      console.error('Error fetching content:', error);
-      res.status(500).send('An error occurred while fetching content. Please try again.');
-    }
-  });
 
   app.get("/login", (req, res) => {
     res.render("pages/login");
   });
   
+  app.post('/login', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    const query = 'select * from users where users.username = $1 AND users.password_h = $2 LIMIT 1';
+    const values = [username, password];
+    // get the student_id based on the emailid
+    db.one(query, values)
+      .then(data => {
+        user.email = data.email
+        user.username = username;
+        user.password = data.password;
+        req.session.user = user;
+        req.session.save();
+  
+        res.redirect('/');
+      })
+      .catch(err => {
+        console.log(err);
+        res.redirect('/login');
+      });
+  });
+  
 app.get('/register', (req, res) => {
   res.render('pages/register');
+});
+
+app.post('/register', function (req, res) {
+  const query =
+    'insert into users (username, email, password_h) values ($1, $2, $3)  returning * ;';
+  db.any(query, [
+    req.body.username,
+    req.body.email,
+    req.body.password,
+  ])
+    // if query execution succeeds
+    // send success message
+    .then(function (data) {
+      res.redirect('/login');
+    })
+    // if query execution fails
+    // send error message
+    .catch(function (err) {
+      return console.log(err);
+    });
+});
+
+// Authentication middleware.
+const auth = (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  next();
+};
+
+app.use(auth);
+
+// -------------------------------------  ROUTES for home.hbs   ----------------------------------------------
+
+app.get("/", async (req, res) => {
+  try {
+    // Fetch content from the database
+    const content = await db.any('SELECT * FROM content');
+
+    res.render('pages/home', { content });
+  } catch (error) {
+    console.error('Error fetching content:', error);
+    res.status(500).send('An error occurred while fetching content. Please try again.');
+  }
 });
 
 app.get('/favorites', (req, res) => {
