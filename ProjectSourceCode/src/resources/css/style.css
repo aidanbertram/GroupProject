@@ -73,3 +73,11 @@ input[type="text"], input[type="password"] {
 .btn.submit-btn:hover {
     background-color: #17a33e;
 }
+
+/* Home Page */
+.card-equal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}

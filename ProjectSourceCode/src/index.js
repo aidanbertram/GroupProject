@@ -63,13 +63,24 @@ const dbConfig = {
 //     res.send("Example website");
 //   });
 
-app.get('/', (req, res) => {
-  res.redirect('/login');
-});
+  // Serve static files - fixed css file issue
+  app.use('/resources', express.static(path.join(__dirname, 'resources')));
 
-app.get('/login', (req, res) => {
-  res.render('pages/login');
-});
+  app.get("/", async (req, res) => {
+    try {
+      // Fetch content from the database
+      const content = await db.any('SELECT * FROM content');
+  
+      res.render('pages/home', { content });
+    } catch (error) {
+      console.error('Error fetching content:', error);
+      res.status(500).send('An error occurred while fetching content. Please try again.');
+    }
+  });
+
+  app.get("/login", (req, res) => {
+    res.render("pages/login");
+  });
   
 app.get('/register', (req, res) => {
   res.render('pages/register');
@@ -79,9 +90,6 @@ app.get('/favorites', (req, res) => {
   res.render('pages/favorites');
 });
   
-//   app.get("/login", (req, res) => {
-//     res.render("pages/login");
-//   });
 
   app.listen(3000, () => {
     console.log("Server is running on port 3000");
