@@ -1,0 +1,21 @@
+<div class="container mt-5">
+    <div class="row">
+        {{#if content.length}}
+            {{#each content}}
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card card-equal">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{title}}</h5>
+                        <p class="card-text"><strong>Genre:</strong> {{genre}}</p>
+                        <p class="card-text"><strong>Format:</strong> {{format}}</p>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        {{else}}
+            <div class="col-12">
+                <p>Your cart is empty.</p>
+            </div>
+        {{/if}}
+    </div>
+</div>

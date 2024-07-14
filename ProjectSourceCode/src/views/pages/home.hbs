@@ -9,9 +9,10 @@
                     <p class="card-text"><strong>Year:</strong> {{this.release_year}}</p>
                     <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
                     <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
-                    <div class="mt-auto">
-                        <!-- Any footer content, buttons, etc. -->
-                    </div>
+                    <form action="/add-to-cart" method="post">
+                        <input type="hidden" name="contentId" value="{{this.content_id}}">
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
                 </div>
             </div>
         </div>
