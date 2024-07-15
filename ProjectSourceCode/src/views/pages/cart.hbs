@@ -1,4 +1,4 @@
-  <div class="container mt-5">
+  {{!-- <div class="container mt-5">
     <h2 class="mb-4">Your Shopping Cart</h2>
     {{#if cartItems.length}}
       <table class="table table-striped">
@@ -31,4 +31,47 @@
       <p>Your cart is empty.</p>
       <a href="/" class="btn btn-primary">Continue Shopping</a>
     {{/if}}
-  </div>
+  </div> --}}
+
+
+<div class="container mt-5">
+  <h2 class="mb-4">Your Shopping Cart</h2>
+  {{#if cartItems.length}}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+          <th scope="col">Total</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each cartItems}}
+        <tr>
+          <td>{{this.name}}</td>
+          <td>{{this.quantity}}</td>
+          <td>${{this.price}}</td>
+          <td>${{multiply this.quantity this.price}}</td>
+          <td>
+            <form action="/cart/remove" method="POST" style="display:inline;">
+              <input type="hidden" name="itemName" value="{{this.name}}">
+              <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+            </form>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+      <h4>Total: ${{calculateTotal cartItems}}</h4>
+    </div>
+    <div class="d-flex justify-content-end mt-3">
+      <a href="/checkout" class="btn btn-primary">Proceed to Checkout</a>
+    </div>
+  {{else}}
+    <p>Your cart is empty.</p>
+    <a href="/" class="btn btn-primary">Continue Shopping</a>
+  {{/if}}
+</div>
