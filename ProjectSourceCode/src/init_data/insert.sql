@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS content (
 );
 -- Insert into users table
 INSERT INTO users (username, email, password_h) VALUES
+('user1', 'user1@example.com', 'password1'),
+('user2', 'user2@example.com', 'password2'),
 ('john_doe', 'john.doe@example.com', 'password123'),
 ('jane_smith', 'jane.smith@example.com', 'mypassword'),
 ('sam_jones', 'sam.jones@example.com', 'securepass'),
@@ -36,8 +38,8 @@ INSERT INTO users (username, email, password_h) VALUES
 INSERT INTO content (content_type, title, director, release_year, genre, format, price) VALUES
 ('Movie', 'Inception', 'Christopher Nolan', 2010, 'Sci-Fi', 'DVD', 19.99),
 ('Movie', 'The Matrix', 'Wachowskis', 1999, 'Sci-Fi', 'Blu-Ray', 14.99),
-('Movie', 'The Godfather', 'Francis Ford Coppola', 1972, 'Crime', 'DVD', 24.99),
-('Movie', 'Pulp Fiction', 'Quentin Tarantino', 1994, 'Crime', 'Blu-Ray', 19.99),
+('Book', 'The Hobbit', 'J.R.R. Tolkien', 1937, 'Fantasy', 'Hardcover', 25.99),
+('Game', 'The Legend of Zelda', 'Nintendo', 1986, 'Adventure', 'Cartridge', 49.99),
 ('Movie', 'Interstellar', 'Christopher Nolan', 2014, 'Sci-Fi', 'Blu-Ray', 22.99),
 ('Movie', 'The Dark Knight', 'Christopher Nolan', 2008, 'Action', 'DVD', 17.99),
 ('Movie', 'Forrest Gump', 'Robert Zemeckis', 1994, 'Drama', 'Blu-Ray', 15.99),
