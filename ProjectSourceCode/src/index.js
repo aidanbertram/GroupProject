@@ -150,9 +150,17 @@ try {
 }
 });
 
-app.get('/favorites', (req, res) => {
-res.render('pages/favorites', {username: req.body.user});
-});
+app.get('/favorites', async (req, res) => {
+  try {
+    // Fetch content from the database
+    const content = await db.any('SELECT * FROM favorites');
+  
+    res.render('pages/favorites', { content });
+  } catch (error) {
+    console.error('Error fetching content:', error);
+    res.status(500).send('An error occurred while fetching content. Please try again.');
+  }
+  });
 
 app.get("/cart", (req, res) => {
   const cartItems = [
