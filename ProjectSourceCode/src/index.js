@@ -78,24 +78,22 @@ const user = {
   app.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    const query = 'select * from users where users.username = $1 AND users.password_h = $2 LIMIT 1';
-    const values = [username, password];
-    // get the student_id based on the emailid
-    db.one(query, values)
+    db.one('SELECT * FROM users WHERE username = $1 AND password_h = $2', [username, password])
       .then(data => {
-        user.email = data.email
-        user.username = username;
-        user.password = data.password;
-        req.session.user = user;
-        req.session.save();
-  
+        req.session.user = {
+            user_id: data.user_id,
+            username: data.username,
+            email: data.email
+        };
+        req.session.save();  // Make sure to save the session after updating it
         res.redirect('/');
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
         res.redirect('/login');
       });
-  });
+});
+
   
 app.get('/register', (req, res) => {
   res.render('pages/register');
@@ -165,4 +163,47 @@ app.get('/logout', (req, res) => {
 
 module.exports = app.listen(3000, () => {
   console.log("Server is running on port 3000");
+});
+
+// Post route to handle adding items to the cart
+app.post('/add-to-cart', async (req, res) => {
+  if (!req.session.user) {
+      return res.status(403).send('You need to log in to add items to your cart.');
+  }
+
+  const contentId = parseInt(req.body.contentId, 10);
+  const userId = req.session.user.user_id;  // Use the user_id stored in session
+
+  try {
+      await db.none('UPDATE users SET cart = array_append(cart, $1) WHERE user_id = $2', [contentId, userId]);
+      res.redirect('back');  // Redirect user back to the page they were on
+  } catch (error) {
+      console.error('Database error:', error);
+      res.status(500).send('Error adding item to cart');
+  }
+});
+
+
+// -------------------------------------  ROUTES for cart.hbs   ----------------------------------------------
+
+app.get('/cart', async (req, res) => {
+  if (!req.session.user) {
+      return res.redirect('/login');  // Redirect to login if the user is not logged in
+  }
+
+  const userId = req.session.user.user_id;
+
+  try {
+      const userCart = await db.one('SELECT cart FROM users WHERE user_id = $1', [userId]);
+      if (userCart.cart.length > 0) {
+          // Fetch content details from the content table based on IDs in the cart
+          const content = await db.any('SELECT content_id, title, genre, format FROM content WHERE content_id = ANY($1)', [userCart.cart]);
+          res.render('pages/cart', { content });
+      } else {
+          res.render('pages/cart', { content: [] });
+      }
+  } catch (error) {
+      console.error('Error accessing the cart:', error);
+      res.status(500).send('Error retrieving your cart.');
+  }
 });
