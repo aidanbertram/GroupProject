@@ -26,7 +26,10 @@
                 <input type="number" id="quantity-{{this.id}}" name="quantity" class="form-control" value="1" min="1">
               </div>
               <button type="submit" class="btn btn-primary">Add to Cart</button>
-              <button type="submit" class="btn btn-primary">Remove</button>
+            </form>
+            <form action="/remove-from-favorites" method="POST" class="mt-auto">
+                <input type="hidden" name="title" value="{{this.title}}">
+                <button type="submit" class="btn btn-primary">Remove</button>
             </form>
           </div>
         </div>

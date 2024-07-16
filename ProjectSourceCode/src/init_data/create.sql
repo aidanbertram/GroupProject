@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS content;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS favorites;
 
 -- Users Table
 CREATE TABLE users (

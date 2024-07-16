@@ -21,6 +21,13 @@ const hbs = handlebars.create({
     multiply: (a, b) => a * b,
     calculateTotal: (cartItems) => {
       return cartItems.reduce((total, item) => total + item.quantity * item.price, 0).toFixed(2);
+    },
+    includes: (array, value) => {
+      console.log('includes helper called');
+      console.log('Array:', array);
+      console.log('Value:', value);
+      if (!Array.isArray(array)) return false;
+      return array.includes(value);
     }
   }
 });
@@ -143,7 +150,10 @@ try {
   // Fetch content from the database
   const content = await db.any('SELECT * FROM content');
 
-  res.render('pages/home', { content });
+  const favorites = await db.any('SELECT title FROM favorites'); // to handle greying out the favorite button once favorited
+  const favoriteTitles = favorites.map(fav => fav.title);
+
+  res.render('pages/home', { content, favoriteTitles });
 } catch (error) {
   console.error('Error fetching content:', error);
   res.status(500).send('An error occurred while fetching content. Please try again.');
@@ -161,6 +171,36 @@ app.get('/favorites', async (req, res) => {
     res.status(500).send('An error occurred while fetching content. Please try again.');
   }
   });
+
+// add to favorites
+app.post('/add-to-favorites', async (req, res) => {
+  try {
+      const { content_type, title, director, release_year, genre, format, price } = req.body;
+
+      // Insert data into the favorites table
+      await db.none('INSERT INTO favorites (content_type, title, director, release_year, genre, format, price) VALUES ($1, $2, $3, $4, $5, $6, $7)', 
+      [content_type, title, director, release_year, genre, format, price]);
+
+      res.redirect('/'); // Redirect to home page
+  } catch (error) {
+      console.error('Error adding to favorites:', error);
+      res.status(500).send('An error occurred while adding to favorites. Please try again.');
+  }
+});
+// remove from favorites
+app.post('/remove-from-favorites', async (req, res) => {
+  try {
+      const { title } = req.body;
+
+      // Delete data from the favorites table
+      await db.none('DELETE FROM favorites WHERE title = $1', [title]);
+
+      res.redirect('/favorites'); // Redirect to favorites page or any other page
+  } catch (error) {
+      console.error('Error removing from favorites:', error);
+      res.status(500).send('An error occurred while removing from favorites. Please try again.');
+  }
+});
 
 app.get("/cart", (req, res) => {
   const cartItems = [

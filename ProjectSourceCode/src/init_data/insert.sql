@@ -42,8 +42,8 @@ INSERT INTO content (content_type, title, director, release_year, genre, format,
 ('Book', 'The Hobbit', 'J.R.R. Tolkien', 1937, 'Fantasy', 'Hardcover', 25.99),
 ('Game', 'The Legend of Zelda', 'Nintendo', 1986, 'Adventure', 'Cartridge', 49.99);
 --insert favorites
-INSERT INTO favorites (content_type, title, director, release_year, genre, format, price) VALUES
-('Movie', 'Inception', 'Christopher Nolan', 2010, 'Sci-Fi', 'DVD', 19.99);
+--INSERT INTO favorites (content_type, title, director, release_year, genre, format, price) VALUES
+--('Movie', 'Inception', 'Christopher Nolan', 2010, 'Sci-Fi', 'DVD', 19.99);
 
 -- FUNCTIONS
 
