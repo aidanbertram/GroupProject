@@ -11,6 +11,7 @@ const session = require("express-session");
 app.use("/resources", express.static(path.join(__dirname, "resources")));
 const bcrypt = require("bcrypt");
 
+
 // -------------------------------------  APP CONFIG   ----------------------------------------------
 
 // create `ExpressHandlebars` instance and configure the layouts and partials dir.
@@ -172,6 +173,24 @@ app.get('/register', (req, res) => {
 res.render('pages/register', {username: req.session.user});
 });
 
+app.post("/register", async function (req, res) {
+   const { username, email, password } = req.body;
+   const query = "INSERT INTO users (username, email, password_h) VALUES ($1, $2, $3) RETURNING *";
+
+   try {
+     // Hash the password
+     const hashedPassword = await bcrypt.hash(password, 10);
+    
+     // Insert the new user into the database
+     const New_user = await db.one(query, [username, email, hashedPassword]);
+
+     // Redirect to login page upon successful registration
+    res.status(200).redirect("/login");
+   } catch (err) {
+     console.log(err);
+     res.status(500).send("An error occurred during registration.");
+   }
+});
 
 app.post('/add_user', function (req, res) {
   const query =
@@ -203,24 +222,6 @@ app.get('/welcome', (req, res) => {
 });
 
 
-// app.post("/register", async function (req, res) {
-//   const { username, email, password } = req.body;
-//   const query = "INSERT INTO users (username, email, password_h) VALUES ($1, $2, $3) RETURNING *";
-
-//   try {
-//     // Hash the password
-//     const hashedPassword = await bcrypt.hash(password, 10);
-    
-//     // Insert the new user into the database
-//     const New_user = await db.one(query, [username, email, hashedPassword]);
-
-//     // Redirect to login page upon successful registration
-//     res.status(200).redirect("/login");
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).send("An error occurred during registration.");
-//   }
-// });
 
 // Authentication middleware.
 const auth = (req, res, next) => {
@@ -367,3 +368,5 @@ app.get('/cart', async (req, res) => {
       res.status(500).send('Error retrieving your cart.');
   }
 });
+
+//module.exports = {app, db};
