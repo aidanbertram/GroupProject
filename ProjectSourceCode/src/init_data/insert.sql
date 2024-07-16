@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS content (
     format VARCHAR(50) NOT NULL,
     price DECIMAL(10, 2)
 );
-<<<<<<< HEAD
 -- Create Favorites Table
 CREATE TABLE IF NOT EXISTS favorites (
     favorite_id SERIAL PRIMARY KEY,
@@ -32,8 +31,6 @@ CREATE TABLE IF NOT EXISTS favorites (
     price DECIMAL(10, 2)
 );
 
-=======
->>>>>>> c8edbefafde262e23b6946cc4ca6668b5c1972e4
 --insert users
 INSERT INTO users (username, email, password_h) VALUES
 ('user1', 'user1@example.com', 'password1'),
@@ -44,12 +41,9 @@ INSERT INTO content (content_type, title, director, release_year, genre, format,
 ('Movie', 'The Matrix', 'Wachowskis', 1999, 'Sci-Fi', 'Blu-Ray', 14.99),
 ('Book', 'The Hobbit', 'J.R.R. Tolkien', 1937, 'Fantasy', 'Hardcover', 25.99),
 ('Game', 'The Legend of Zelda', 'Nintendo', 1986, 'Adventure', 'Cartridge', 49.99);
-<<<<<<< HEAD
 --insert favorites
 --INSERT INTO favorites (content_type, title, director, release_year, genre, format, price) VALUES
 --('Movie', 'Inception', 'Christopher Nolan', 2010, 'Sci-Fi', 'DVD', 19.99);
-=======
->>>>>>> c8edbefafde262e23b6946cc4ca6668b5c1972e4
 
 -- FUNCTIONS
 
@@ -108,8 +102,5 @@ BEGIN
     RETURN selling_contents;
 END;
 $$ LANGUAGE plpgsql;
-<<<<<<< HEAD
-=======
 
 
->>>>>>> c8edbefafde262e23b6946cc4ca6668b5c1972e4

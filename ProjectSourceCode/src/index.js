@@ -144,7 +144,6 @@ next();
 app.use(auth);
 
 // -------------------------------------  ROUTES for home.hbs   ----------------------------------------------
-
 app.get("/", async (req, res) => {
 try {
   // Fetch content from the database
