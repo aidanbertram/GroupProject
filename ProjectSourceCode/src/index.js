@@ -235,6 +235,7 @@ app.use(auth);
 
 // -------------------------------------  ROUTES for home.hbs   ----------------------------------------------
 app.get("/", async (req, res) => {
+  user = req.session.user;
 try {
   // Fetch content from the database
   const content = await db.any('SELECT * FROM content');
@@ -242,7 +243,7 @@ try {
   const favorites = await db.any('SELECT title FROM favorites'); // to handle greying out the favorite button once favorited
   const favoriteTitles = favorites.map(fav => fav.title);
 
-  res.render('pages/home', { content, favoriteTitles });
+  res.render('pages/home', { content, favoriteTitles, user });
 } catch (error) {
   console.error('Error fetching content:', error);
   res.status(500).send('An error occurred while fetching content. Please try again.');
@@ -291,14 +292,14 @@ app.post('/remove-from-favorites', async (req, res) => {
   }
 });
 
-app.get("/cart", (req, res) => {
-  const cartItems = [
-    { name: "Item 1", quantity: 2, price: 10.0 },
-    { name: "Item 2", quantity: 1, price: 20.0 },
-    { name: "Item 3", quantity: 3, price: 5.0 },
-  ];
-  res.render("pages/cart", { cartItems });
-});
+// app.get("/cart", (req, res) => {
+//   const cartItems = [
+//     { name: "Item 1", quantity: 2, price: 10.0 },
+//     { name: "Item 2", quantity: 1, price: 20.0 },
+//     { name: "Item 3", quantity: 3, price: 5.0 },
+//   ];
+//   res.render("pages/cart", { cartItems });
+// });
 
 // Mock login and logout routes for demonstration purposes
 app.post("/login", (req, res) => {
