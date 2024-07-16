@@ -23,6 +23,7 @@ CREATE TABLE content (
     format VARCHAR(50) NOT NULL,
     price DECIMAL(10, 2)
 );
+<<<<<<< HEAD
 
 -- Favorites Table 
 CREATE TABLE favorites (
@@ -35,3 +36,5 @@ CREATE TABLE favorites (
     format VARCHAR(50) NOT NULL,
     price DECIMAL(10, 2)
 );
+=======
+>>>>>>> c8edbefafde262e23b6946cc4ca6668b5c1972e4
