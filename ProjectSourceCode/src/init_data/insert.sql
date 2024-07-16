@@ -19,7 +19,19 @@ CREATE TABLE IF NOT EXISTS content (
     format VARCHAR(50) NOT NULL,
     price DECIMAL(10, 2)
 );
--- Insert into users table
+-- Create Favorites Table
+CREATE TABLE IF NOT EXISTS favorites (
+    favorite_id SERIAL PRIMARY KEY,
+    content_type VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    director VARCHAR(255),
+    release_year INT,
+    genre VARCHAR(50),
+    format VARCHAR(50) NOT NULL,
+    price DECIMAL(10, 2)
+);
+
+--insert users
 INSERT INTO users (username, email, password_h) VALUES
 ('user1', 'user1@example.com', 'password1'),
 ('user2', 'user2@example.com', 'password2'),
@@ -67,6 +79,8 @@ INSERT INTO content (content_type, title, director, release_year, genre, format,
 ('TV Show', 'The Simpsons', 'Matt Groening', 1989, 'Animation', 'DVD', 59.99),
 ('TV Show', 'The Big Bang Theory', 'Chuck Lorre, Bill Prady', 2007, 'Comedy', 'DVD', 49.99);
 
+--INSERT INTO favorites (content_type, title, director, release_year, genre, format, price) VALUES
+--('Movie', 'Inception', 'Christopher Nolan', 2010, 'Sci-Fi', 'DVD', 19.99);
 
 -- FUNCTIONS
 
