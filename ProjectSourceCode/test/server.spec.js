@@ -67,4 +67,3 @@ describe('Testing Render', () => {
         });
     });
   });
-  

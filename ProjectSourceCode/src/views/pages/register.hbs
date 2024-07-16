@@ -3,6 +3,21 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
         <h2>Register</h2>
+        {{#if message}}
+        <div class="alert alert-danger" role="alert">
+        {{message}}
+        </div>
+        {{/if}}
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const messageElement = document.getElementById('message');
+            if (messageElement) {
+                setTimeout(function() {
+                messageElement.style.display = 'none';
+                }, 5000);
+            }
+        });
+        </script>
         <form action="/register" method="POST">
             <div class="form-group">
             <label for="username">Username</label>
