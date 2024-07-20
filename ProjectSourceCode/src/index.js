@@ -255,7 +255,7 @@ app.get('/favorites', async (req, res) => {
     // Fetch content from the database
     const content = await db.any('SELECT * FROM favorites');
   
-    res.render('pages/favorites', { content });
+    res.render('pages/favorites', { content, user });
   } catch (error) {
     console.error('Error fetching content:', error);
     res.status(500).send('An error occurred while fetching content. Please try again.');
