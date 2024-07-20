@@ -358,9 +358,10 @@ app.get('/cart', async (req, res) => {
   try {
       const userCart = await db.one('SELECT cart FROM users WHERE user_id = $1', [userId]);
       if (userCart.cart.length > 0) {
-          // Fetch content details from the content table based on IDs in the cart
-          const content = await db.any('SELECT content_id, title, genre, format FROM content WHERE content_id = ANY($1)', [userCart.cart]);
-          res.render('pages/cart', { content });
+          const content = await db.any('SELECT content_id, title, genre, format, price FROM content WHERE content_id = ANY($1)', [userCart.cart]);
+          // Calculate total price
+          const total = content.reduce((acc, currentItem) => acc + parseFloat(currentItem.price), 0);
+          res.render('pages/cart', { content, total: total.toFixed(2) }); // Send total as a fixed decimal string
       } else {
           res.render('pages/cart', { content: [] });
       }
@@ -369,5 +370,43 @@ app.get('/cart', async (req, res) => {
       res.status(500).send('Error retrieving your cart.');
   }
 });
+
+app.post('/remove-from-cart/:contentId', async (req, res) => {
+  if (!req.session.user) {
+      return res.status(401).json({ success: false, message: 'Not logged in' });
+  }
+
+  const userId = req.session.user.user_id;
+  const contentIdToRemove = parseInt(req.params.contentId);
+
+  try {
+      await db.tx(async t => {
+          const userCart = await t.one('SELECT cart FROM users WHERE user_id = $1', [userId]);
+          const updatedCart = userCart.cart.filter(id => id !== contentIdToRemove);
+          await t.none('UPDATE users SET cart = $1 WHERE user_id = $2', [updatedCart, userId]);
+      });
+      res.json({ success: true });
+  } catch (error) {
+      console.error('Error removing item from cart:', error);
+      res.status(500).json({ success: false, message: 'Error removing item from cart' });
+  }
+});
+
+app.post('/purchase-items', async (req, res) => {
+  if (!req.session.user) {
+      return res.status(401).json({ success: false, message: 'Not logged in' });
+  }
+
+  const userId = req.session.user.user_id;
+
+  try {
+      await db.none('UPDATE users SET cart = ARRAY[]::INTEGER[] WHERE user_id = $1', [userId]);
+      res.json({ success: true });
+  } catch (error) {
+      console.error('Error clearing cart:', error);
+      res.status(500).json({ success: false, message: 'Error clearing cart' });
+  }
+});
+
 
 //module.exports = {app, db};
