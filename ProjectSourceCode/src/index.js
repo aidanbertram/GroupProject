@@ -255,7 +255,7 @@ app.get('/favorites', async (req, res) => {
     // Fetch content from the database
     const content = await db.any('SELECT * FROM favorites');
   
-    res.render('pages/favorites', { content });
+    res.render('pages/favorites', { content, user });
   } catch (error) {
     console.error('Error fetching content:', error);
     res.status(500).send('An error occurred while fetching content. Please try again.');
@@ -289,6 +289,49 @@ app.post('/remove-from-favorites', async (req, res) => {
   } catch (error) {
       console.error('Error removing from favorites:', error);
       res.status(500).send('An error occurred while removing from favorites. Please try again.');
+  }
+});
+
+// Library Tab
+app.get('/library', async (req, res) => {
+  try {
+    // Fetch content from the database
+    const content = await db.any('SELECT * FROM library');
+  
+    res.render('pages/library', { content, user });
+  } catch (error) {
+    console.error('Error fetching content:', error);
+    res.status(500).send('An error occurred while fetching content. Please try again.');
+  }
+  });
+
+// add to library
+app.post('/add-to-library', async (req, res) => {
+  try {
+      const { content_type, title, director, release_year, genre, format, price } = req.body;
+
+      // Insert data into the library table
+      await db.none('INSERT INTO library (content_type, title, director, release_year, genre, format, price) VALUES ($1, $2, $3, $4, $5, $6, $7)', 
+      [content_type, title, director, release_year, genre, format, price]);
+
+      res.redirect('/'); // Redirect to home page
+  } catch (error) {
+      console.error('Error adding to library:', error);
+      res.status(500).send('An error occurred while adding to library. Please try again.');
+  }
+});
+// remove from library
+app.post('/remove-from-library', async (req, res) => {
+  try {
+      const { title } = req.body;
+
+      // Delete data from the library table
+      await db.none('DELETE FROM library WHERE title = $1', [title]);
+
+      res.redirect('/library'); // Redirect to library page or any other page
+  } catch (error) {
+      console.error('Error removing from library:', error);
+      res.status(500).send('An error occurred while removing from library. Please try again.');
   }
 });
 

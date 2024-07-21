@@ -1,0 +1,31 @@
+<style>
+    .card-equal {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+    }
+  </style>
+  <div class="container mt-5">
+    <h2 class="mb-4">Library</h2>
+    <div class="row">
+      {{#each content}}
+      <div class="col-md-3 mb-4 d-flex align-items-stretch">
+        <div class="card card-equal">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{this.title}}</h5>
+            <p class="card-text"><strong>Director:</strong> {{this.director}}</p>
+            <p class="card-text"><strong>Year:</strong> {{this.release_year}}</p>
+            <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
+            <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
+
+            <form action="/remove-from-library" method="POST" class="mt-auto">
+                <input type="hidden" name="title" value="{{this.title}}">
+                <button type="submit" class="btn btn-primary">Remove (WIP)</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
