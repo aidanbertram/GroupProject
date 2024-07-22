@@ -475,6 +475,58 @@ app.post('/purchase-items', async (req, res) => {
   }
 });
 
+// ROUTES FOR SELLING
+
+// GET route to display the selling page with current user's listings
+app.get('/selling', async (req, res) => {
+  if (!req.session.user) {
+      return res.redirect('/login');  // Ensure the user is logged in
+  }
+
+  try {
+      const userId = req.session.user.user_id;
+      const userSelling = await db.one('SELECT selling FROM users WHERE user_id = $1', [userId]);
+      
+      if (userSelling.selling.length > 0) {
+          const listings = await db.any('SELECT * FROM content WHERE content_id = ANY($1)', [userSelling.selling]);
+          res.render('pages/selling', { listings });
+      } else {
+          res.render('pages/selling', { listings: [] });
+      }
+  } catch (error) {
+      console.error('Error accessing selling items:', error);
+      res.status(500).send('Error retrieving selling items.');
+  }
+});
+
+// POST route to add a new listing
+app.post('/add-listing', async (req, res) => {
+  if (!req.session.user) {
+      return res.status(403).send('You need to log in to add listings.');
+  }
+
+  // Extract all form inputs
+  const { content_type, title, format, director, release_year, genre, price } = req.body;
+
+  console.log("Received data:", { content_type, title, format, director, release_year, genre, price });
+
+  try {
+      const insertContent = await db.one(
+          'INSERT INTO content (content_type, title, format, director, release_year, genre, price) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING content_id', 
+          [content_type, title, format, director, release_year, genre, price]
+      );
+      console.log("Inserted content with ID:", insertContent.content_id);
+      await db.none('UPDATE users SET selling = array_append(selling, $1) WHERE user_id = $2', [insertContent.content_id, req.session.user.user_id]);
+      
+      res.redirect('/selling');  // Redirect back to selling page to see the new listing
+  } catch (error) {
+      console.error('Error adding new listing:', error);
+      res.status(500).send('Error adding new listing: ' + error.message);
+  }
+});
+
+
+
 
 
 //module.exports = {app, db};
