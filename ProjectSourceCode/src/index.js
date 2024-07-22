@@ -446,13 +446,35 @@ app.post('/purchase-items', async (req, res) => {
   const userId = req.session.user.user_id;
 
   try {
+      // Fetch the content IDs from the user's cart
+      const { cart } = await db.one('SELECT cart FROM users WHERE user_id = $1', [userId]);
+
+      if (cart.length === 0) {
+          return res.status(400).json({ success: false, message: 'Cart is empty' });
+      }
+
+      // Fetch the content data for each item in the cart
+      const contentItems = await db.any('SELECT * FROM content WHERE content_id = ANY($1)', [cart]);
+
+      // Insert each content item into the library table
+      const insertQueries = contentItems.map(item => {
+          return db.none('INSERT INTO library (content_type, title, director, release_year, genre, format, price) VALUES ($1, $2, $3, $4, $5, $6, $7)', 
+          [item.content_type, item.title, item.director, item.release_year, item.genre, item.format, item.price]);
+      });
+
+      // Execute all insert queries
+      await Promise.all(insertQueries);
+
+      // Clear the user's cart
       await db.none('UPDATE users SET cart = ARRAY[]::INTEGER[] WHERE user_id = $1', [userId]);
+
       res.json({ success: true });
   } catch (error) {
-      console.error('Error clearing cart:', error);
-      res.status(500).json({ success: false, message: 'Error clearing cart' });
+      console.error('Error purchasing items:', error);
+      res.status(500).json({ success: false, message: 'Error purchasing items' });
   }
 });
+
 
 
 //module.exports = {app, db};
