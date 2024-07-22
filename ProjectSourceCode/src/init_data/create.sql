@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS content;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS favorites;
+DROP TABLE IF EXISTS library;
 
 -- Users Table
 CREATE TABLE users (
@@ -27,6 +28,7 @@ CREATE TABLE content (
 -- Favorites Table 
 CREATE TABLE favorites (
     favorite_id SERIAL PRIMARY KEY,
+    content_origin_id VARCHAR(10) NOT NULL,
     content_type VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL,
     director VARCHAR(255),
@@ -36,7 +38,7 @@ CREATE TABLE favorites (
     price DECIMAL(10, 2)
 );
 
--- Favorites Table 
+-- Library Table 
 CREATE TABLE library (
     library_id SERIAL PRIMARY KEY,
     content_type VARCHAR(255) NOT NULL,
