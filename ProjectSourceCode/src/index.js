@@ -374,6 +374,7 @@ app.get('/cart', async (req, res) => {
 
 
 app.get("/search", async (req, res) => {
+  const user = req.session.user || {};
   const { query, genre, format, year } = req.query;
   let sqlQuery = "SELECT * FROM content WHERE 1=1";
   let queryParams = [];
@@ -400,12 +401,13 @@ app.get("/search", async (req, res) => {
 
   try {
     const content = await db.any(sqlQuery, queryParams);
-    res.render("pages/home", { content, user: req.session.user });
+    res.json(content);
   } catch (error) {
     console.error("Error fetching content:", error);
-    res.status(500).send("An error occurred while fetching content. Please try again.");
+    res.status(500).json({ error: "An error occurred while fetching content. Please try again." });
   }
 });
+
 
 
 //module.exports = {app, db};
