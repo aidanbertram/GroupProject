@@ -1,11 +1,37 @@
-<style>
-    .card-equal {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 100%;
-    }
-  </style>
+  <style>
+        .card-equal {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .btn-orange {
+            background-color: orange;
+            border-color: orange;
+        }
+        .btn-orange:hover {
+            background-color: darkorange;
+            border-color: darkorange;
+        }
+        .btn-black {
+            background-color: black;
+            border-color: black;
+            color: white;
+        }
+        .btn-black:hover {
+            background-color: gray;
+            border-color: gray;
+        }
+        .card-body .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    </style>
   <div class="container mt-5">
     <h2 class="mb-4">Products</h2>
     <div class="row">
@@ -47,3 +73,5 @@
       {{/each}}
     </div>
   </div>
+
+

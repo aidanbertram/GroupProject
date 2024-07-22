@@ -11,6 +11,24 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../../resources/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../../resources/icons/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-
+    <style>
+        footer {
+            display: none;
+            opacity: 0%;
+            background-color: #f8f9fa; /* Light gray background */
+            color: #6c757d; /* Text color */
+            height: 7%;
+            padding: 1rem 0;
+            transition: opacity 0.5s ease-in-out;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+        footer.show {
+            display: block;
+            opacity: 0.84;
+        }
+    </style>
 </head>
 <body class="h-100 d-flex flex-column">

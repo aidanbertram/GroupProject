@@ -4,6 +4,16 @@
     </p>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener('scroll', function() {
+        const footer = document.querySelector('footer');
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            footer.classList.add('show');
+        } else {
+            footer.classList.remove('show');
+        }
+    });
+</script>
 </footer>
 </body>
 </html>

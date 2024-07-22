@@ -74,6 +74,7 @@ db.connect()
     console.log("ERROR", error.message || error);
   });
 
+
 // -------------------------------------  ROUTES   ---------------------------------------
 app.get("/welcome", (req, res) => {
   res.json({ status: "success", message: "Welcome!" });
@@ -250,6 +251,7 @@ try {
 }
 });
 
+
 app.get('/favorites', async (req, res) => {
   try {
     // Fetch content from the database
@@ -302,11 +304,11 @@ app.post('/remove-from-favorites', async (req, res) => {
 // });
 
 // Mock login and logout routes for demonstration purposes
-app.post("/login", (req, res) => {
-  // Authentication logic here
-  req.session.username = { username }; // Set user session variable
-  res.redirect("/");
-});
+// app.post("/login", (req, res) => {
+//   // Authentication logic here
+//   req.session.username = { username }; // Set user session variable
+//   res.redirect("/");
+// });
 
 app.get("/logout", (req, res) => {
   req.session.destroy((err) => {
@@ -369,5 +371,41 @@ app.get('/cart', async (req, res) => {
       res.status(500).send('Error retrieving your cart.');
   }
 });
+
+
+app.get("/search", async (req, res) => {
+  const { query, genre, format, year } = req.query;
+  let sqlQuery = "SELECT * FROM content WHERE 1=1";
+  let queryParams = [];
+
+  if (query) {
+    sqlQuery += " AND (title ILIKE $1 OR director ILIKE $1)";
+    queryParams.push(`%${query}%`);
+  }
+
+  if (genre) {
+    sqlQuery += ` AND genre = $${queryParams.length + 1}`;
+    queryParams.push(genre);
+  }
+
+  if (format) {
+    sqlQuery += ` AND format = $${queryParams.length + 1}`;
+    queryParams.push(format);
+  }
+
+  if (year) {
+    sqlQuery += ` AND release_year = $${queryParams.length + 1}`;
+    queryParams.push(year);
+  }
+
+  try {
+    const content = await db.any(sqlQuery, queryParams);
+    res.render("pages/home", { content, user: req.session.user });
+  } catch (error) {
+    console.error("Error fetching content:", error);
+    res.status(500).send("An error occurred while fetching content. Please try again.");
+  }
+});
+
 
 //module.exports = {app, db};

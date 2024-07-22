@@ -1,0 +1,63 @@
+{{!-- <div class="container mt-5">
+        <h2 class="mb-4">Search Results</h2>
+        <div class="row">
+            {{#each results}}
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card card-equal">
+                    <img src="/path/to/image/{{this.title}}.jpg" class="card-img-top" alt="{{this.title}}">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{this.title}}</h5>
+                        <p class="card-text"><strong>Director:</strong> {{this.director}}</p>
+                        <p class="card-text"><strong>Year:</strong> {{this.release_year}}</p>
+                        <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
+                        <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
+                        <p class="card-text"><strong>Price:</strong> ${{this.price}}</p>
+                        <a href="./cart.hbs" class="btn btn-primary mt-auto">Add to Cart</a>
+                        <a href="./favorites.hbs" class="btn btn-secondary mt-2">Favorite</a>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div> --}}
+
+    <div class="container mt-5">
+    <h2 class="mb-4">Search Results</h2>
+    <div class="row">
+        {{#each results}}
+        <div class="col-md-3 mb-4 d-flex align-items-stretch">
+            <div class="card card-equal">
+                <img src="/resources/img/{{this.title}}.jpg" class="card-img-top" alt="{{this.title}}">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text"><strong>Director:</strong> {{this.director}}</p>
+                    <p class="card-text"><strong>Year:</strong> {{this.release_year}}</p>
+                    <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
+                    <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
+                    <p class="card-text"><strong>Price:</strong> ${{this.price}}</p>
+                    
+                    <form action="/add-to-cart" method="POST" class="mt-auto">
+                        <input type="hidden" name="contentId" value="{{this.content_id}}">
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+
+                    <form action="/add-to-favorites" method="POST" class="mt-2">
+                        <input type="hidden" name="content_type" value="{{this.content_type}}">
+                        <input type="hidden" name="title" value="{{this.title}}">
+                        <input type="hidden" name="director" value="{{this.director}}">
+                        <input type="hidden" name="release_year" value="{{this.release_year}}">
+                        <input type="hidden" name="genre" value="{{this.genre}}">
+                        <input type="hidden" name="format" value="{{this.format}}">
+                        <input type="hidden" name="price" value="{{this.price}}">
+                        {{#if (includes ../favoriteTitles this.title)}}
+                        <button type="button" class="btn btn-secondary" disabled>Favorited</button>
+                        {{else}}
+                        <button type="submit" class="btn btn-primary">Favorite</button>
+                        {{/if}}
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
