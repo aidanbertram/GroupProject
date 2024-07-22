@@ -116,33 +116,37 @@
       const card = document.createElement('div');
       card.className = 'col-md-3 mb-4 d-flex align-items-stretch';
       card.innerHTML = `
-        <div class="card card-equal">
-          <img src="/resources/img/${item.title}.jpg" class="card-img-top" alt="${item.title}">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">${item.title}</h5>
-            <p class="card-text"><strong>Director:</strong> ${item.director}</p>
-            <p class="card-text"><strong>Year:</strong> ${item.release_year}</p>
-            <p class="card-text"><strong>Genre:</strong> ${item.genre}</p>
-            <p class="card-text"><strong>Format:</strong> ${item.format}</p>
-            <p class="card-text"><strong>Price:</strong> $${item.price}</p>
-            
-            <form action="/add-to-cart" method="POST" class="mt-auto">
-              <input type="hidden" name="contentId" value="${item.content_id}">
-              <button type="submit" class="btn btn-primary">Add to Cart</button>
-            </form>
+            <div class="card card-equal">
+                <img src="/resources/img/{{this.title}}.jpg" class="card-img-top" alt="{{this.title}}">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text"><strong>Director:</strong> {{this.director}}</p>
+                    <p class="card-text"><strong>Year:</strong> {{this.release_year}}</p>
+                    <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
+                    <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
+                    <p class="card-text"><strong>Price:</strong> ${{this.price}}</p>
+                    
+                    <form action="/add-to-cart" method="POST" class="mt-auto">
+                        <input type="hidden" name="contentId" value="{{this.content_id}}">
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
 
-            <form action="/add-to-favorites" method="POST" class="mt-2">
-              <input type="hidden" name="content_type" value="${item.content_type}">
-              <input type="hidden" name="title" value="${item.title}">
-              <input type="hidden" name="director" value="${item.director}">
-              <input type="hidden" name="release_year" value="${item.release_year}">
-              <input type="hidden" name="genre" value="${item.genre}">
-              <input type="hidden" name="format" value="${item.format}">
-              <input type="hidden" name="price" value="${item.price}">
-              <button type="submit" class="btn btn-primary">Favorite</button>
-            </form>
-          </div>
-        </div>
+                    <form action="/add-to-favorites" method="POST" class="mt-2">
+                        <input type="hidden" name="content_type" value="{{this.content_type}}">
+                        <input type="hidden" name="title" value="{{this.title}}">
+                        <input type="hidden" name="director" value="{{this.director}}">
+                        <input type="hidden" name="release_year" value="{{this.release_year}}">
+                        <input type="hidden" name="genre" value="{{this.genre}}">
+                        <input type="hidden" name="format" value="{{this.format}}">
+                        <input type="hidden" name="price" value="{{this.price}}">
+                        {{#if (includes ../favoriteTitles this.title)}}
+                        <button type="button" class="btn btn-secondary" disabled>Favorited</button>
+                        {{else}}
+                        <button type="submit" class="btn btn-primary">Favorite</button>
+                        {{/if}}
+                    </form>
+                </div>
+            </div>
       `;
       resultsContainer.appendChild(card);
     });

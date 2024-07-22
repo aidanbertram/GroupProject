@@ -401,12 +401,23 @@ app.get("/search", async (req, res) => {
 
   try {
     const content = await db.any(sqlQuery, queryParams);
-    res.json(content);
+    if (req.xhr) {
+      // If the request is AJAX, send JSON
+      res.json(content);
+    } else {
+      // Otherwise, render the search results page
+      res.render("pages/searchResults", { content, user });
+    }
   } catch (error) {
     console.error("Error fetching content:", error);
-    res.status(500).json({ error: "An error occurred while fetching content. Please try again." });
+    if (req.xhr) {
+      res.status(500).json({ error: "An error occurred while fetching content. Please try again." });
+    } else {
+      res.status(500).send("An error occurred while fetching content. Please try again.");
+    }
   }
 });
+
 
 
 
