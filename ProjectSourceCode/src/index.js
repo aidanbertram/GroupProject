@@ -265,11 +265,11 @@ app.get('/favorites', async (req, res) => {
 // add to favorites
 app.post('/add-to-favorites', async (req, res) => {
   try {
-      const { content_type, title, director, release_year, genre, format, price } = req.body;
+      const { contentId, content_type, title, director, release_year, genre, format, price } = req.body;
 
       // Insert data into the favorites table
-      await db.none('INSERT INTO favorites (content_type, title, director, release_year, genre, format, price) VALUES ($1, $2, $3, $4, $5, $6, $7)', 
-      [content_type, title, director, release_year, genre, format, price]);
+      await db.none('INSERT INTO favorites (content_origin_id, content_type, title, director, release_year, genre, format, price) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', 
+      [contentId, content_type, title, director, release_year, genre, format, price]);
 
       res.redirect('/'); // Redirect to home page
   } catch (error) {
@@ -378,6 +378,9 @@ app.post('/add-to-cart', async (req, res) => {
 
   const contentId = parseInt(req.body.contentId, 10);
   const userId = req.session.user.user_id;  // Use the user_id stored in session
+
+  console.log(req.body.contentId)
+  console.log(contentId)
 
   try {
       await db.none('UPDATE users SET cart = array_append(cart, $1) WHERE user_id = $2', [contentId, userId]);

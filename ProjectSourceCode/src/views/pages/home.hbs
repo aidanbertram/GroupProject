@@ -40,6 +40,7 @@
             </form>
 
             <form action="/add-to-favorites" method="POST" class="mt-auto"> <!-- add to favorites button -->
+                <input type="hidden" name="contentId" value="{{this.content_id}}">
                 <input type="hidden" name="content_type" value="{{this.content_type}}">
                 <input type="hidden" name="title" value="{{this.title}}">
                 <input type="hidden" name="director" value="{{this.director}}">
