@@ -1,5 +1,14 @@
+    <style>
+    .card-equal {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+    }
+  </style>
     <div class="container mt-5">
     <h2 class="mb-4">Search Results</h2>
+
     <div id="search-results" class="row">
         {{#each content}}
         <div class="col-md-3 mb-4 d-flex align-items-stretch">
@@ -11,7 +20,7 @@
                     <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
                     <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
                     <p class="card-text"><strong>Price:</strong> ${{this.price}}</p>
-                    
+                    &nbsp;
                     <form action="/add-to-cart" method="POST" class="mt-auto">
                         <input type="hidden" name="contentId" value="{{this.content_id}}">
                         <button type="submit" class="btn btn-primary">Add to Cart</button>

@@ -18,6 +18,8 @@
             <p class="card-text"><strong>Year:</strong> {{this.release_year}}</p>
             <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
             <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
+            <p class="card-text"><strong>Price:</strong> ${{this.price}}</p>
+
 
             <!--<form action="/add-to-library" method="POST" class="mt-auto"> <!-- TEMPORARY TEST: add-to-cart directly adds item to library - original intended route: "/add-to-cart", change back once cart is functional --><!--
               <input type="hidden" name="content_type" value="{{this.content_type}}">
@@ -33,11 +35,12 @@
               </div> 
               <button type="submit" class="btn btn-primary">Add to Cart</button>
             </form>-->
-
+            &nbsp;
             <form action="/add-to-cart" method="post">
                 <input type="hidden" name="contentId" value="{{this.content_id}}">
                 <button type="submit" class="btn btn-primary">Add to Cart</button>
             </form>
+            &nbsp;
 
             <form action="/add-to-favorites" method="POST" class="mt-auto"> <!-- add to favorites button -->
                 <input type="hidden" name="contentId" value="{{this.content_id}}">

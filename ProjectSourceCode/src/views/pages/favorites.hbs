@@ -18,15 +18,15 @@
             <p class="card-text"><strong>Year:</strong> {{this.release_year}}</p>
             <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
             <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
-
+            &nbsp;
             <form action="/add-to-cart" method="post">
                 <input type="hidden" name="contentId" value="{{this.content_origin_id}}">
                 <button type="submit" class="btn btn-primary">Add to Cart</button>
-            </form>
+            </form>&nbsp;
 
             <form action="/remove-from-favorites" method="POST" class="mt-auto">
                 <input type="hidden" name="title" value="{{this.title}}">
-                <button type="submit" class="btn btn-primary">Remove</button>
+                <button type="submit" class="btn btn-primary">Remove from Favorites</button>
             </form>
           </div>
         </div>
