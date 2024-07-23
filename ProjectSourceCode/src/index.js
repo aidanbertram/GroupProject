@@ -441,4 +441,112 @@ app.post("/filter", async (req, res) => {
   }
 });
 
+app.post('/remove-from-cart/:contentId', async (req, res) => {
+  if (!req.session.user) {
+      return res.status(401).json({ success: false, message: 'Not logged in' });
+  }
+
+  const userId = req.session.user.user_id;
+  const contentIdToRemove = parseInt(req.params.contentId);
+
+  try {
+      await db.tx(async t => {
+          const userCart = await t.one('SELECT cart FROM users WHERE user_id = $1', [userId]);
+          const updatedCart = userCart.cart.filter(id => id !== contentIdToRemove);
+          await t.none('UPDATE users SET cart = $1 WHERE user_id = $2', [updatedCart, userId]);
+      });
+      res.json({ success: true });
+  } catch (error) {
+      console.error('Error removing item from cart:', error);
+      res.status(500).json({ success: false, message: 'Error removing item from cart' });
+  }
+});
+
+app.post('/purchase-items', async (req, res) => {
+  if (!req.session.user) {
+      return res.status(401).json({ success: false, message: 'Not logged in' });
+  }
+
+  const userId = req.session.user.user_id;
+
+  try {
+      // Fetch the content IDs from the user's cart
+      const { cart } = await db.one('SELECT cart FROM users WHERE user_id = $1', [userId]);
+
+      if (cart.length === 0) {
+          return res.status(400).json({ success: false, message: 'Cart is empty' });
+      }
+
+      // Fetch the content data for each item in the cart
+      const contentItems = await db.any('SELECT * FROM content WHERE content_id = ANY($1)', [cart]);
+
+      // Insert each content item into the library table
+      const insertQueries = contentItems.map(item => {
+          return db.none('INSERT INTO library (content_type, title, director, release_year, genre, format, price) VALUES ($1, $2, $3, $4, $5, $6, $7)', 
+          [item.content_type, item.title, item.director, item.release_year, item.genre, item.format, item.price]);
+      });
+
+      // Execute all insert queries
+      await Promise.all(insertQueries);
+
+      // Clear the user's cart
+      await db.none('UPDATE users SET cart = ARRAY[]::INTEGER[] WHERE user_id = $1', [userId]);
+
+      res.json({ success: true });
+  } catch (error) {
+      console.error('Error purchasing items:', error);
+      res.status(500).json({ success: false, message: 'Error purchasing items' });
+  }
+});
+
+// ROUTES FOR SELLING
+
+// GET route to display the selling page with current user's listings
+app.get('/selling', async (req, res) => {
+  if (!req.session.user) {
+      return res.redirect('/login');  // Ensure the user is logged in
+  }
+
+  try {
+      const userId = req.session.user.user_id;
+      const userSelling = await db.one('SELECT selling FROM users WHERE user_id = $1', [userId]);
+      
+      if (userSelling.selling.length > 0) {
+          const listings = await db.any('SELECT * FROM content WHERE content_id = ANY($1)', [userSelling.selling]);
+          res.render('pages/selling', { listings });
+      } else {
+          res.render('pages/selling', { listings: [] });
+      }
+  } catch (error) {
+      console.error('Error accessing selling items:', error);
+      res.status(500).send('Error retrieving selling items.');
+  }
+});
+
+// POST route to add a new listing
+app.post('/add-listing', async (req, res) => {
+  if (!req.session.user) {
+      return res.status(403).send('You need to log in to add listings.');
+  }
+
+  // Extract all form inputs
+  const { content_type, title, format, director, release_year, genre, price } = req.body;
+
+  console.log("Received data:", { content_type, title, format, director, release_year, genre, price });
+
+  try {
+      const insertContent = await db.one(
+          'INSERT INTO content (content_type, title, format, director, release_year, genre, price) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING content_id', 
+          [content_type, title, format, director, release_year, genre, price]
+      );
+      console.log("Inserted content with ID:", insertContent.content_id);
+      await db.none('UPDATE users SET selling = array_append(selling, $1) WHERE user_id = $2', [insertContent.content_id, req.session.user.user_id]);
+      
+      res.redirect('/selling');  // Redirect back to selling page to see the new listing
+  } catch (error) {
+      console.error('Error adding new listing:', error);
+      res.status(500).send('Error adding new listing: ' + error.message);
+  }
+});
+
 //module.exports = {app, db};
