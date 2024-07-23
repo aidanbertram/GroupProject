@@ -375,14 +375,44 @@ app.get('/cart', async (req, res) => {
 
 app.get("/search", async (req, res) => {
   const user = req.session.user || {};
-  const { query, genre, format, year } = req.query;
+  const { query } = req.query;
   let sqlQuery = "SELECT * FROM content WHERE 1=1";
   let queryParams = [];
+  
 
   if (query) {
     sqlQuery += " AND (title ILIKE $1 OR director ILIKE $1)";
-    queryParams.push(`%${query}%`);
+    queryParams.push(`${query}`);
   }
+
+  console.log("The query params are: ", queryParams);
+  try {
+    const content = await db.any(sqlQuery, queryParams);
+    console.log("This is the content: ", content);
+    // if (req.xhr) {
+    //   // If the request is AJAX, send JSON
+    //   res.json(content);
+    // } else {
+    //   // Otherwise, render the search results page
+    //   res.render("pages/searchResults", { content, user });
+    // }
+    res.render("pages/searchResults", { content, user });
+  } catch (error) {
+    console.error("Error fetching content:", error);
+    if (req.xhr) {
+      res.status(500).json({ error: "An error occurred while fetching content. Please try again." });
+    } else {
+      res.status(500).send("An error occurred while fetching content. Please try again.");
+    }
+  }
+});
+
+
+app.post("/filter", async (req, res) => {
+  const user = req.session.user || {};
+  const { genre, format, year } = req.body;
+  let sqlQuery = "SELECT * FROM content WHERE 1=1";
+  let queryParams = [];
 
   if (genre) {
     sqlQuery += ` AND genre = $${queryParams.length + 1}`;
@@ -398,27 +428,17 @@ app.get("/search", async (req, res) => {
     sqlQuery += ` AND release_year = $${queryParams.length + 1}`;
     queryParams.push(year);
   }
+  console.log("The query params are: ", queryParams);
 
-  try {
+  try{
+    console.log("The query: ", sqlQuery);
     const content = await db.any(sqlQuery, queryParams);
-    if (req.xhr) {
-      // If the request is AJAX, send JSON
-      res.json(content);
-    } else {
-      // Otherwise, render the search results page
-      res.render("pages/searchResults", { content, user });
-    }
+    console.log("This is the content: ", content);
+    res.render("pages/searchResults", { content, user });
   } catch (error) {
     console.error("Error fetching content:", error);
-    if (req.xhr) {
-      res.status(500).json({ error: "An error occurred while fetching content. Please try again." });
-    } else {
-      res.status(500).send("An error occurred while fetching content. Please try again.");
-    }
+    res.status(500).send("An error occurred while fetching content. Please try again.");
   }
 });
-
-
-
 
 //module.exports = {app, db};
