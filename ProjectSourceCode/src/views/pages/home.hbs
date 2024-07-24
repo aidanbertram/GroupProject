@@ -1,11 +1,3 @@
-<style>
-    .card-equal {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 100%;
-    }
-  </style>
   <div class="container mt-5">
     <h2 class="mb-4">Products</h2>
     <div class="row">
@@ -19,7 +11,6 @@
             <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
             <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
             <p class="card-text"><strong>Price:</strong> ${{this.price}}</p>
-
 
             <!--<form action="/add-to-library" method="POST" class="mt-auto"> <!-- TEMPORARY TEST: add-to-cart directly adds item to library - original intended route: "/add-to-cart", change back once cart is functional --><!--
               <input type="hidden" name="content_type" value="{{this.content_type}}">
@@ -36,7 +27,7 @@
               <button type="submit" class="btn btn-primary">Add to Cart</button>
             </form>-->
             &nbsp;
-            <form action="/add-to-cart" method="post">
+            <form action="/add-to-cart" method="post" class="add-to-cart-form">
                 <input type="hidden" name="contentId" value="{{this.content_id}}">
                 <button type="submit" class="btn btn-primary">Add to Cart</button>
             </form>
@@ -63,3 +54,4 @@
       {{/each}}
     </div>
   </div>
+
