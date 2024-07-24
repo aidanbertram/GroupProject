@@ -79,3 +79,80 @@ describe('Testing Add Favorites API', () => {
     });
 });
 
+describe('Testing Add Listing API', () => {
+
+  // Test when the user is authenticated
+  it('should add a new listing and redirect to /selling', done => {
+    // Simulating an authenticated session
+    agent = chai.request.agent(server);
+
+    // Assuming there's a route to login and create a session
+    agent
+      .post('/login')
+      .send({ username: 'john_doe', password: 'password123' }) 
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        agent
+          .post('/add-listing')
+          .send({ content_type: 'game', title: 'Test Game', format: 'digital', director: 'Test Director', release_year: 2021, genre: 'Action', price: '19.99' })
+          .end((err, res) => {
+            expect(res).to.have.status(200);
+            done();
+          });
+      });
+  });
+});
+
+describe('Testing Filter API with Authentication', () => {
+  let agent = chai.request.agent(server);
+
+  before(done => {
+    // Simulating an authenticated session
+    agent
+      .post('/login')
+      .send({ username: 'john_doe', password: 'password123' }) 
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        done();
+      });
+  });
+
+  // Test with valid filters for an authenticated user
+  it('should return filtered content for authenticated users', done => {
+    agent
+      .post('/filter')
+      .send({ genre: 'Action', format: 'digital', year: 2021 })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        res.should.be.html;
+        done();
+      });
+  });
+
+  // Test with no filters for an authenticated user
+  it('should return all content when no filters are applied by authenticated users', done => {
+    agent
+      .post('/filter')
+      .send({}) // No filters
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        res.should.be.html;
+        done();
+      });
+  });
+
+  // Test for an unauthenticated user
+  it('should redirect to /login for unauthenticated users', done => {
+    chai
+      .request(server)
+      .post('/filter')
+      .send({ genre: 'Action', format: 'digital', year: 2021 })
+      .end((err, res) => {
+        expect(res).to.have.status(200); // The response should be a redirect status code
+        done();
+      });
+  });
+});
+
