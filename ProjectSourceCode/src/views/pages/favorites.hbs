@@ -1,30 +1,35 @@
-  <div class="container mt-5">
+<div class="container mt-5">
     <h2 class="mb-4">Favorites</h2>
     <div class="row">
-      {{#each content}}
-      <div class="col-md-3 mb-4 d-flex align-items-stretch">
-        <div class="card card-equal">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{this.title}}</h5>
-            <p class="card-text"><strong>Director:</strong> {{this.director}}</p>
-            <p class="card-text"><strong>Year:</strong> {{this.release_year}}</p>
-            <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
-            <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
-            <p class="card-text"><strong>Price:</strong> ${{this.price}}</p>
-            &nbsp;
-            <form action="/add-to-cart" method="post" class="add-to-cart-form">
-                <input type="hidden" name="contentId" value="{{this.content_origin_id}}">
-                <button type="submit" class="btn btn-primary">Add to Cart</button>
-            </form>
-            &nbsp;
-
-            <form action="/remove-from-favorites" method="POST" class="mt-auto">
-                <input type="hidden" name="title" value="{{this.title}}">
-                <button type="submit" class="btn btn-primary">Remove from Favorites</button>
-            </form>
-          </div>
-        </div>
-      </div>
-      {{/each}}
+        {{#if content.length}}
+            {{#each content}}
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card card-equal">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{this.title}}</h5>
+                        <p class="card-text"><strong>Director:</strong> {{this.director}}</p>
+                        <p class="card-text"><strong>Year:</strong> {{this.release_year}}</p>
+                        <p class="card-text"><strong>Genre:</strong> {{this.genre}}</p>
+                        <p class="card-text"><strong>Format:</strong> {{this.format}}</p>
+                        <p class="card-text"><strong>Price:</strong> ${{this.price}}</p>
+                        &nbsp;
+                        <form action="/add-to-cart" method="post" class="add-to-cart-form">
+                            <input type="hidden" name="contentId" value="{{this.content_origin_id}}">
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
+                        &nbsp;
+                        <form action="/remove-from-favorites" method="POST" class="mt-auto">
+                            <input type="hidden" name="title" value="{{this.title}}">
+                            <button type="submit" class="btn btn-primary">Remove from Favorites</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        {{else}}
+            <div class="col-12">
+                <p class="text-center">No favorites added. Use the favorite button to add items to your favorites.</p>
+            </div>
+        {{/if}}
     </div>
-  </div>
+</div>
